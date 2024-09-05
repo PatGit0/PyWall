@@ -39,7 +39,7 @@ def copy_ruleset(file_path):
 
 def list_ruleset():
 
-    command = ["list", "ruleset"]
+    command = ["-a","list", "ruleset"]
     return utils.run_nft_command(command)
 
 def add_table(name):

@@ -131,8 +131,8 @@ def create_rule(table, chain):
 @app.route('/tables/<string:table>/rules', methods=['GET'])
 def get_rules_from_table(table):
     try:
-        nft.list_rules_from_tables(table)
-        return jsonify({"message": f"Listado de reglas en la tabla '{table}' ejecutado"})
+        data = str(nft.list_rules_from_tables(table)).splitlines()
+        return jsonify({"message": f"Listado de reglas en la tabla '{table}'", "rules": data})
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500
 
@@ -140,7 +140,7 @@ def get_rules_from_table(table):
 @app.route('/tables/<string:table>/chains/<string:chain>/rules/<int:handle>', methods=['DELETE'])
 def delete_rule(table, chain, handle):
     try:
-        nft.delete_rule(table, chain, handle)
+        nft.delete_rule(table, chain, str(handle))
         return jsonify({"message": f"Regla con handle '{handle}' eliminada de la cadena '{chain}' en la tabla '{table}'"})
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500

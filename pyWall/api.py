@@ -1,8 +1,8 @@
 import subprocess
 
 from flask import Flask, request, jsonify
-import firewall_manager as nft
-import json
+import  firewall_manager as nft
+
 app = Flask(__name__)
 
 
@@ -42,7 +42,7 @@ def get_ruleset():
             output["tables"][current_table]["chains"][current_chain]["rules"].append(line)
 
 
-    return jsonify(output)
+    return jsonify(output), 200
 
 
 @app.route('/tables', methods=['POST'])
@@ -58,11 +58,12 @@ def create_table():
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500
 
+
 @app.route('/tables', methods=['GET'])
 def get_tables():
     try:
         data=str(nft.list_tables()).splitlines()
-        return jsonify({"message": 'Listado de tablas ejecutado: ', "tables": data})
+        return jsonify({"message": 'Listado de tablas ejecutado: ', "tables": data}), 200
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500
 
@@ -71,7 +72,7 @@ def get_tables():
 def delete_table(name):
     try:
         nft.delete_table(name)
-        return jsonify({"message": f"Tabla '{name}' eliminada"})
+        return jsonify({"message": f"Tabla '{name}' eliminada"}), 204
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500
 
@@ -80,7 +81,7 @@ def delete_table(name):
 def flush_table(name):
     try:
         nft.flush_table(name)
-        return jsonify({"message": f"Tabla '{name}' vaciada"})
+        return jsonify({"message": f"Tabla '{name}' vaciada"}), 204
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500
 
@@ -109,7 +110,7 @@ def create_chain(table):
 def delete_chain(table, name):
     try:
         nft.delete_chain(table, name)
-        return jsonify({"message": f"Cadena '{name}' eliminada de la tabla '{table}'"})
+        return jsonify({"message": f"Cadena '{name}' eliminada de la tabla '{table}'"}), 204
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500
 
@@ -132,7 +133,7 @@ def create_rule(table, chain):
 def get_rules_from_table(table):
     try:
         data = str(nft.list_rules_from_tables(table)).splitlines()
-        return jsonify({"message": f"Listado de reglas en la tabla '{table}'", "rules": data})
+        return jsonify({"message": f"Listado de reglas en la tabla '{table}'", "rules": data}), 200
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500
 
@@ -141,7 +142,7 @@ def get_rules_from_table(table):
 def delete_rule(table, chain, handle):
     try:
         nft.delete_rule(table, chain, str(handle))
-        return jsonify({"message": f"Regla con handle '{handle}' eliminada de la cadena '{chain}' en la tabla '{table}'"})
+        return jsonify({"message": f"Regla con handle '{handle}' eliminada de la cadena '{chain}' en la tabla '{table}'"}), 204
     except Exception as e:
         return jsonify({"error": f"Error inesperado: {str(e)}"}), 500
 

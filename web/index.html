@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Firewall</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Estado del Firewall</h1>
+    <div id="ruleset"></div>
+    <button onclick="getRuleset()">Actualizar Reglas</button>
+
+    <h2>Gestión de Tablas y Cadenas</h2>
+    <button onclick="createTable()">Crear Tabla</button>
+    <button onclick="deleteTable()">Eliminar Tabla</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
